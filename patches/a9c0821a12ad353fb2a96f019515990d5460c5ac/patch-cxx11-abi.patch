@@ -1,12 +1,11 @@
 diff --git a/setup.py b/setup.py
-index 5a6201a..f58f04e 100755
+index b51307a..2fe9276 100644
 --- a/setup.py
 +++ b/setup.py
-@@ -11,6 +11,13 @@ import torch
+@@ -10,6 +10,14 @@ from typing import List
+ import torch
  from torch.utils.cpp_extension import CUDA_HOME, CppExtension, CUDAExtension
-
- torch_ver = [int(x) for x in torch.__version__.split(".")[:2]]
-+
+ 
 +FORCE_CXX11_ABI = os.getenv("DETECTRON2_FORCE_CXX11_ABI", "FALSE") == "TRUE"
 +
 +# HACK: The compiler flag -D_GLIBCXX_USE_CXX11_ABI is set to be the same as
@@ -14,5 +13,7 @@ index 5a6201a..f58f04e 100755
 +# https://github.com/pytorch/pytorch/blob/8472c24e3b5b60150096486616d98b7bea01500b/torch/utils/cpp_extension.py#L920
 +if FORCE_CXX11_ABI:
 +    torch._C._GLIBCXX_USE_CXX11_ABI = True
++
+ torch_ver = [int(x) for x in torch.__version__.split(".")[:2]]
  assert torch_ver >= [1, 8], "Requires PyTorch >= 1.8"
-
+ 
