@@ -1,0 +1,23 @@
+diff --git a/setup.py b/setup.py
+index 5a6201a..0d20041 100755
+--- a/setup.py
++++ b/setup.py
+@@ -13,6 +13,9 @@ from torch.utils.cpp_extension import CUDA_HOME, CppExtension, CUDAExtension
+ torch_ver = [int(x) for x in torch.__version__.split(".")[:2]]
+ assert torch_ver >= [1, 8], "Requires PyTorch >= 1.8"
+
++TORCH_MAJOR = int(torch.__version__.split(".")[0])
++TORCH_MINOR = int(torch.__version__.split(".")[1])
++
+
+ def get_version():
+     init_py_path = path.join(path.abspath(path.dirname(__file__)), "detectron2", "__init__.py")
+@@ -160,6 +163,7 @@ setup(
+     package_dir=PROJECTS,
+     package_data={"detectron2.model_zoo": get_model_zoo_configs()},
+     python_requires=">=3.7",
+     install_requires=[
++        f"torch=={TORCH_MAJOR}.{TORCH_MINOR}.*",
+         # These dependencies are not pure-python.
+         # In general, avoid adding dependencies that are not pure-python because they are not
+         # guaranteed to be installable by `pip install` on all platforms.
