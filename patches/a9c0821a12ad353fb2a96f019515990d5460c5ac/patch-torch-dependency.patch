@@ -1,0 +1,33 @@
+diff --git a/setup.py b/setup.py
+index b51307a..644dbad 100644
+--- a/setup.py
++++ b/setup.py
+@@ -10,9 +10,20 @@ from typing import List
+ import torch
+ from torch.utils.cpp_extension import CUDA_HOME, CppExtension, CUDAExtension
+ 
++FORCE_CXX11_ABI = os.getenv("DETECTRON2_FORCE_CXX11_ABI", "FALSE") == "TRUE"
++
++# HACK: The compiler flag -D_GLIBCXX_USE_CXX11_ABI is set to be the same as
++# torch._C._GLIBCXX_USE_CXX11_ABI
++# https://github.com/pytorch/pytorch/blob/8472c24e3b5b60150096486616d98b7bea01500b/torch/utils/cpp_extension.py#L920
++if FORCE_CXX11_ABI:
++    torch._C._GLIBCXX_USE_CXX11_ABI = True
++
+ torch_ver = [int(x) for x in torch.__version__.split(".")[:2]]
+ assert torch_ver >= [1, 8], "Requires PyTorch >= 1.8"
+ 
++TORCH_MAJOR = int(torch.__version__.split(".")[0])
++TORCH_MINOR = int(torch.__version__.split(".")[1])
++
+ 
+ def get_version():
+     init_py_path = path.join(path.abspath(path.dirname(__file__)), "detectron2", "__init__.py")
+@@ -160,6 +171,7 @@ setup(
+     package_data={"detectron2.model_zoo": get_model_zoo_configs()},
+     python_requires=">=3.7",
+     install_requires=[
++        f"torch=={TORCH_MAJOR}.{TORCH_MINOR}.*",
+         # These dependencies are not pure-python.
+         # In general, avoid adding dependencies that are not pure-python because they are not
+         # guaranteed to be installable by `pip install` on all platforms.
