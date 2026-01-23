@@ -1,0 +1,18 @@
+diff --git a/setup.py b/setup.py
+index 1234567..abcdefg 100644
+--- a/setup.py
++++ b/setup.py
+@@ -20,6 +20,13 @@ def get_version():
+     version_line = [l.strip() for l in init_py if l.startswith("__version__")][0]
+     version = version_line.split("=")[-1].strip().strip("'\"")
+
++    # Auto-generate local version from CUDA and PyTorch versions.
++    import torch
++    cuda_version = torch.version.cuda
++    torch_version = ".".join(torch.__version__.split(".")[:2])
++    if cuda_version:
++        version = f"{version}+cu.{cuda_version}.torch.{torch_version}"
++
+     # The following is used to build nightly packages.
+     # Users should never use it.
+     suffix = os.getenv("D2_VERSION_SUFFIX", "")
