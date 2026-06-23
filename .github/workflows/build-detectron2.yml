@@ -67,7 +67,7 @@ jobs:
           if [ "${GITHUB_EVENT_NAME}" = "workflow_dispatch" ]; then
             TAG="${INPUTS_RELEASE_TAG}"
             # Remove -rN suffix if present
-            DETECTRON2_VERSION=$(printf '%s\\n' "${TAG}" | sed -E 's/-r[0-9]+$//')
+            DETECTRON2_VERSION=$(sed -E 's/-r[0-9]+$//' <<<"${TAG}")
             # Map version to commit hash
             if [ "${DETECTRON2_VERSION}" = "0.6" ]; then
               DETECTRON2_VERSION="a9c0821a12ad353fb2a96f019515990d5460c5ac"
