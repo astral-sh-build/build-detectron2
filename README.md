@@ -8,9 +8,8 @@ PyTorch, CUDA, and CPU architectures.
 
 Following the PyTorch convention, artifacts are published to a separate index
 for each CUDA version. Each wheel has a local version suffix that identifies the
-CUDA version, PyTorch version, and C++ ABI it was built against, such as
-`detectron2==0.6+cu.12.8.torch.2.10.cu12.8torch2.10.0cxx11abiTRUE`, and requires the matching
-PyTorch release.
+CUDA and PyTorch versions it was built against, such as
+`detectron2==0.6+cu.12.8.torch.2.10`, and requires the matching PyTorch release.
 
 Pre-built wheels are available on
 [Astral's GPU indexes](https://wheels.astral.sh/index.html).

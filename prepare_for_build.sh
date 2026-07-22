@@ -2,7 +2,7 @@
 # Script to prepare the build environment for detectron2.
 #
 # Example usage:
-#   ./prepare_for_build.sh a9c0821a12ad353fb2a96f019515990d5460c5ac
+#   ./prepare_for_build.sh 02b5c4e295e990042a714712c21dc79b731e8833
 
 set -euxo pipefail
 
@@ -13,7 +13,7 @@ export ROOT=`pwd`
 
 if [ $# -ne 1 ]; then
     echo "Usage: $0 <detectron2-version>"
-    echo "Example: $0 a9c0821a12ad353fb2a96f019515990d5460c5ac"
+    echo "Example: $0 02b5c4e295e990042a714712c21dc79b731e8833"
     exit 1
 fi
 
