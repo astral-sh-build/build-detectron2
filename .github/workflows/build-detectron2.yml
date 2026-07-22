@@ -62,18 +62,18 @@ jobs:
         id: detectron2-version
         run: |
           # Extract Detectron2 version from tag. Tags can be either:
-          # - a9c0821a12ad353fb2a96f019515990d5460c5ac (legacy format; maps directly to Detectron2 commit)
-          # - a9c0821a12ad353fb2a96f019515990d5460c5ac-r1 (new format; strip -rN suffix to get Detectron2 commit)
+          # - 02b5c4e295e990042a714712c21dc79b731e8833 (legacy format; maps directly to Detectron2 commit)
+          # - 02b5c4e295e990042a714712c21dc79b731e8833-r1 (new format; strip -rN suffix to get Detectron2 commit)
           if [ "${GITHUB_EVENT_NAME}" = "workflow_dispatch" ]; then
             TAG="${INPUTS_RELEASE_TAG}"
             # Remove -rN suffix if present
             DETECTRON2_VERSION=$(sed -E 's/-r[0-9]+$//' <<<"${TAG}")
             # Map version to commit hash
             if [ "${DETECTRON2_VERSION}" = "0.6" ]; then
-              DETECTRON2_VERSION="a9c0821a12ad353fb2a96f019515990d5460c5ac"
+              DETECTRON2_VERSION="02b5c4e295e990042a714712c21dc79b731e8833"
             fi
           else
-            DETECTRON2_VERSION="a9c0821a12ad353fb2a96f019515990d5460c5ac"
+            DETECTRON2_VERSION="02b5c4e295e990042a714712c21dc79b731e8833"
           fi
           echo "version=${DETECTRON2_VERSION}" >> $GITHUB_OUTPUT
           echo "Using Detectron2 version: ${DETECTRON2_VERSION}"
@@ -179,14 +179,6 @@ jobs:
       - name: Log Built Wheels
         run: |
           wheel_name=$(ls dist/*whl | xargs -n 1 basename)
-          echo "wheel_name=${wheel_name}" >> $GITHUB_ENV
-          ls dist
-
-      - name: Rename wheel
-        run: |
-          tmpname=cu${{ matrix.cuda-version }}torch${{ matrix.torch-version }}cxx11abi${{ matrix.cxx11-abi }}
-          wheel_name=$(ls dist/*whl | xargs -n 1 basename | sed "s/-/+$tmpname-/2")
-          ls dist/*whl |xargs -I {} mv {} dist/${wheel_name}
           echo "wheel_name=${wheel_name}" >> $GITHUB_ENV
           ls dist
 
